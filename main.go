@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -114,4 +115,8 @@ func boardFromString(s string) Board {
 }
 
 func main() {
+	definition := "530070000600195000098000060800060003400803001700020006060000280000419005000080079"
+	board := boardFromString(definition)
+	board.solve()
+	fmt.Println(board.Cells)
 }
