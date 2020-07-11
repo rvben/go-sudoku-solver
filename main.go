@@ -1,9 +1,10 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func contains(slice []int, item int) bool {
@@ -141,10 +142,16 @@ func boardFromString(s string) Board {
 }
 
 func main() {
-	// definition := "530070000600195000098000060800060003400803001700020006060000280000419005000080079"
-	definition := "800000000003600000070090200050007000000045700000100030001000068008500010090000400"
-	board := boardFromString(definition)
-	board.solve()
-	fmt.Println(board.Cells)
+	start := time.Now()
 
+	// definition := "530070000600195000098000060800060003400803001700020006060000280000419005000080079"
+	for i := 0; i < 10; i++ {
+		definition := "800000000003600000070090200050007000000045700000100030001000068008500010090000400"
+		board := boardFromString(definition)
+		board.solve()
+		// fmt.Println(board.Cells)
+	}
+
+	elapsed := time.Since(start)
+	log.Printf("Solving 10x took %s", elapsed)
 }
