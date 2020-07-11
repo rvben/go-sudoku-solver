@@ -16,7 +16,7 @@ func contains(slice []int, item int) bool {
 	return false
 }
 
-func validate(unit [9]int) bool {
+func validate(unit *[9]int) bool {
 	var nine []int
 	for i := range unit {
 		value := unit[i]
@@ -35,7 +35,7 @@ type Board struct {
 	Cells [81]int
 }
 
-func (b Board) getColumn(i int) [9]int {
+func (b *Board) getColumn(i int) [9]int {
 	var column [9]int
 	for j := 0; j < 9; j++ {
 		item := i + 9*j
@@ -44,7 +44,7 @@ func (b Board) getColumn(i int) [9]int {
 	return column
 }
 
-func (b Board) getRow(i int) [9]int {
+func (b *Board) getRow(i int) [9]int {
 	var column [9]int
 	for j := 0; j < 9; j++ {
 		item := j + 9*i
@@ -53,7 +53,7 @@ func (b Board) getRow(i int) [9]int {
 	return column
 }
 
-func (b Board) getBlock(i int) [9]int {
+func (b *Board) getBlock(i int) [9]int {
 	var block [9]int
 	start := (27 * (i / 3)) + (i%3)*3
 	for j := 0; j < 9; j++ {
@@ -75,7 +75,7 @@ func GetColumnByNr(i int) int {
 	return i - (i/9)*9
 }
 
-func (b Board) validateCell(i int) bool {
+func (b *Board) validateCell(i int) bool {
 	bnr := GetBlockByNr(i)
 	cnr := GetColumnByNr(i)
 	rnr := GetRowByNr(i)
@@ -83,19 +83,19 @@ func (b Board) validateCell(i int) bool {
 	column := b.getColumn(cnr)
 	row := b.getRow(rnr)
 
-	if !(validate(block) && validate(column) && validate(row)) {
+	if !(validate(&block) && validate(&column) && validate(&row)) {
 		return false
 	}
 	return true
 }
 
-func (b Board) validate() bool {
+func (b *Board) validate() bool {
 	for j := 0; j < 9; j++ {
 		block := b.getBlock(j)
 		column := b.getColumn(j)
 		row := b.getRow(j)
 
-		if !(validate(block) && validate(column) && validate(row)) {
+		if !(validate(&block) && validate(&column) && validate(&row)) {
 			return false
 		}
 	}
