@@ -62,6 +62,32 @@ func (b Board) getBlock(i int) [9]int {
 	return block
 }
 
+func GetBlockByNr(i int) int {
+	return (i/27)*3 + ((i - ((i / 27) * 9)) % 3)
+}
+
+func GetRowByNr(i int) int {
+	return i / 9
+}
+
+func GetColumnByNr(i int) int {
+	return i - (i/9)*9
+}
+
+func (b Board) validateCell(i int) bool {
+	bnr := GetBlockByNr(i)
+	cnr := GetColumnByNr(i)
+	rnr := GetRowByNr(i)
+	block := b.getBlock(bnr)
+	column := b.getColumn(cnr)
+	row := b.getRow(rnr)
+
+	if !(validate(block) && validate(column) && validate(row)) {
+		return false
+	}
+	return true
+}
+
 func (b Board) validate() bool {
 	for j := 0; j < 9; j++ {
 		block := b.getBlock(j)
@@ -95,7 +121,7 @@ func (b *Board) solve() (Board, bool) {
 		}
 		b.Cells[cursor] = b.Cells[cursor] + 1
 
-		if b.validate() {
+		if b.validateCell(cursor) {
 			cursorHistory = append(cursorHistory, cursor)
 		} else {
 			i = i - 1
@@ -115,8 +141,10 @@ func boardFromString(s string) Board {
 }
 
 func main() {
-	definition := "530070000600195000098000060800060003400803001700020006060000280000419005000080079"
+	// definition := "530070000600195000098000060800060003400803001700020006060000280000419005000080079"
+	definition := "800000000003600000070090200050007000000045700000100030001000068008500010090000400"
 	board := boardFromString(definition)
 	board.solve()
 	fmt.Println(board.Cells)
+
 }
